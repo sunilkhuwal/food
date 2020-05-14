@@ -28,11 +28,10 @@ const styles = StyleSheet.create({
 		height: 50,
 		marginHorizontal: 15,
 		borderRadius: 10,
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginBottom: 10
 	},
 	inputStyle: {
-		//borderColor: 'black',
-		//borderWidth: 1,
 		flex: 1,
 		fontSize: 18
 	},
