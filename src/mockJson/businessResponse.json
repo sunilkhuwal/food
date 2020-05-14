@@ -431,7 +431,7 @@
                 "pickup",
                 "delivery"
             ],
-            "price": "$$",
+            "price": "$$$",
             "location": {
                 "address1": "579 Coleman Ave",
                 "address2": "",

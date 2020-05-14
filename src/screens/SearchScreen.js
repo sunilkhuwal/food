@@ -1,46 +1,36 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import SearchBar from '../components/SearchBar';
-import yelp from '../api/yelp';
-//import SearchUser from '../components/SearchUser';
+import SearchBar from "../components/SearchBar";
+import useResults from '../hooks/useResults';
+import ResultsList from '../components/ResultsList';
 
-const customData = require('../mockJson/businessResponse.json');
+const customData = require("../mockJson/businessResponse.json");
 
 const SearchScreen = () => {
-  const [sunil, setRakesh] = useState('');
-  const [results, setResults] = useState([]);
-  const[errorMessage, setErrorMessage] = useState('');
-  //const [myName, setMyName] = useState('');
+  const [term, setTerm] = useState('');
+  const [searchApi, results, errorMessage] = useResults();
 
-  const yelpApi = async () => {
-   try{
-    // const response = await yelp.get('/search', {
-    //   params : {
-    //     limit: 50,
-    //     term: sunil,
-    //     location: 'san jose'
-    //   }
-    // });
-    // setResults(response.data.businesses);
-
-    //Mocking response of API  
-    setResults(customData.businesses);
-   }
-    catch(err) {
-      setErrorMessage('Something went wrong');
-    }
+  const filterResultsByPrice = (price) => {
+    //price = {'$' || '$$' || '$$$'}
+    return results.filter(result => {
+      console.log('----> ' + result.price) ;
+      return result.price !== undefined && result.price === price;
+    });
   }
 
   return (
     <View>
-      <SearchBar propForSearch={sunil} onTermChange={newTerm => setRakesh(newTerm)} onSubmitTextData={yelpApi
-      }  />
+      <SearchBar
+        propForSearch={term}
+        onTermChange={(newTerm) => setTerm(newTerm)}
+        onSubmitTextData={() => searchApi(term)}
+      />
       <Text>Search Screen </Text>
-      <Text >Going forward this is the new value: {sunil}</Text>
+      {errorMessage ? <Text>{errorMessage}</Text> : <Text>Going forward this is the new value: {term}</Text>}
       <Text>So here comes the result of apis {results.length} </Text>
-
-      {/* <SearchUser whatToSearch = {myName} onChangeOfWork = {newText => setMyName(newText)}/>
-      <Text>This is custom output {myName}</Text> */}
+      <ResultsList results={filterResultsByPrice('$')} title='Cost Effective' />
+      <ResultsList results={filterResultsByPrice('$$')} title='Big Pricier' />
+      <ResultsList results={filterResultsByPrice('$$$')} title='Big Spender' />
     </View>
   );
 };
