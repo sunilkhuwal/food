@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, } from "react-native";
 
 const ResultDetail = ({ result }) => {
   return (
